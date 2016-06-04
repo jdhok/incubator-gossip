@@ -20,9 +20,7 @@ package org.apache.gossip.manager.random;
 import org.apache.gossip.GossipMember;
 import org.apache.gossip.GossipSettings;
 import org.apache.gossip.event.GossipListener;
-import org.apache.gossip.manager.ActiveGossipThread;
 import org.apache.gossip.manager.GossipManager;
-import org.apache.gossip.manager.PassiveGossipThread;
 import org.apache.gossip.manager.impl.OnlyProcessReceivedPassiveGossipThread;
 
 import java.util.List;
@@ -41,6 +39,8 @@ public class RandomGossipManager extends GossipManager {
     private GossipSettings settings;
     private List<GossipMember> gossipMembers;
     private GossipListener listener;
+
+    private ManagerBuilder() {}
 
     public ManagerBuilder cluster(String cluster) {
       this.cluster = cluster;
@@ -81,7 +81,8 @@ public class RandomGossipManager extends GossipManager {
       return new RandomGossipManager(cluster, address, port, id, settings, gossipMembers, listener);
     }
   }
-  public RandomGossipManager(String cluster, String address, int port, String id,
+  
+  private RandomGossipManager(String cluster, String address, int port, String id,
                              GossipSettings settings, List<GossipMember> gossipMembers, GossipListener listener) {
     super(OnlyProcessReceivedPassiveGossipThread.class, RandomActiveGossipThread.class, cluster,
             address, port, id, settings, gossipMembers, listener);
