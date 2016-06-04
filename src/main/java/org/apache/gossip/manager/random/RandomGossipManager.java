@@ -23,6 +23,7 @@ import org.apache.gossip.event.GossipListener;
 import org.apache.gossip.manager.GossipManager;
 import org.apache.gossip.manager.impl.OnlyProcessReceivedPassiveGossipThread;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class RandomGossipManager extends GossipManager {
@@ -42,7 +43,14 @@ public class RandomGossipManager extends GossipManager {
 
     private ManagerBuilder() {}
 
+    private void checkNotNull(Object arg, String msg) {
+      if (arg == null) {
+        throw new NullPointerException(msg);
+      }
+    }
+
     public ManagerBuilder cluster(String cluster) {
+      checkNotNull(cluster, "Cluster should not be null");
       this.cluster = cluster;
       return this;
     }
@@ -58,6 +66,7 @@ public class RandomGossipManager extends GossipManager {
     }
 
     public ManagerBuilder withId(String id) {
+      checkNotNull(id, "id should not be null");
       this.id = id;
       return this;
     }
@@ -68,7 +77,7 @@ public class RandomGossipManager extends GossipManager {
     }
 
     public ManagerBuilder gossipMembers(List<GossipMember> members) {
-      this.gossipMembers = members;
+      this.gossipMembers = members == null ? new ArrayList<GossipMember>(): members;
       return this;
     }
 
