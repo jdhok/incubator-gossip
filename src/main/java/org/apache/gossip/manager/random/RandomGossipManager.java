@@ -43,14 +43,13 @@ public class RandomGossipManager extends GossipManager {
 
     private ManagerBuilder() {}
 
-    private void checkNotNull(Object arg, String msg) {
-      if (arg == null) {
-        throw new NullPointerException(msg);
+    private void checkArgument(boolean check, String msg) {
+      if (!check) {
+        throw new IllegalArgumentException(msg);
       }
     }
 
     public ManagerBuilder cluster(String cluster) {
-      checkNotNull(cluster, "Cluster should not be null");
       this.cluster = cluster;
       return this;
     }
@@ -66,7 +65,6 @@ public class RandomGossipManager extends GossipManager {
     }
 
     public ManagerBuilder withId(String id) {
-      checkNotNull(id, "id should not be null");
       this.id = id;
       return this;
     }
@@ -87,6 +85,8 @@ public class RandomGossipManager extends GossipManager {
     }
 
     public RandomGossipManager build() {
+      checkArgument(id != null, "You must specify an id");
+      checkArgument(cluster != null, "You must specify a cluster name");
       return new RandomGossipManager(cluster, address, port, id, settings, gossipMembers, listener);
     }
   }
