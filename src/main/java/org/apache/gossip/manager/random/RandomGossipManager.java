@@ -90,14 +90,13 @@ public class RandomGossipManager extends GossipManager {
       checkArgument(settings != null, "You must specify gossip settings");
 
       if (this.gossipMembers == null) {
-        System.out.println("Creating new member list");
         this.gossipMembers = new ArrayList<>();
       }
 
       return new RandomGossipManager(cluster, address, port, id, settings, gossipMembers, listener);
     }
   }
-  
+
   private RandomGossipManager(String cluster, String address, int port, String id,
                              GossipSettings settings, List<GossipMember> gossipMembers, GossipListener listener) {
     super(OnlyProcessReceivedPassiveGossipThread.class, RandomActiveGossipThread.class, cluster,
