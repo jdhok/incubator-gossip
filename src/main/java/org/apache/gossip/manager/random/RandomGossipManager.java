@@ -75,7 +75,7 @@ public class RandomGossipManager extends GossipManager {
     }
 
     public ManagerBuilder gossipMembers(List<GossipMember> members) {
-      this.gossipMembers = members == null ? new ArrayList<GossipMember>(): members;
+      this.gossipMembers = members;
       return this;
     }
 
@@ -87,6 +87,13 @@ public class RandomGossipManager extends GossipManager {
     public RandomGossipManager build() {
       checkArgument(id != null, "You must specify an id");
       checkArgument(cluster != null, "You must specify a cluster name");
+      checkArgument(settings != null, "You must specify gossip settings");
+
+      if (this.gossipMembers == null) {
+        System.out.println("Creating new member list");
+        this.gossipMembers = new ArrayList<>();
+      }
+
       return new RandomGossipManager(cluster, address, port, id, settings, gossipMembers, listener);
     }
   }
